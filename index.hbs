@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkoryT</title>
+    <meta name="google" content="notranslate" />
+    <link rel="shortcut icon" href="assets/favicon.webp" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+  </head>
+  <body>
+    <script id="template" type="text/x-handlebars-template">
+      <div class="container">
+        {{#each blocks}}
+          <aside class="block" style="--t: {{this}}">
+            {{#each rectangles}}
+              <section class="rectangle rectangle-{{this}}">
+                {{#each sides}}
+                  <div class="side"></div>
+                {{/each}}
+              </section>
+            {{/each}}
+          </aside>
+        {{/each}}
+      </div>
+    </script>
+
+    <script>
+      const templateSource = document.getElementById("template").innerHTML;
+      const template = Handlebars.compile(templateSource);
+
+      const blocks = Array.from({ length: 48 }, (_, i) => i + 1);
+
+      const context = {
+        blocks: blocks.map((blockNumber) => ({
+          this: blockNumber,
+          rectangles: [1, 2, 3, 4].map((n) => ({
+            this: n,
+            sides: Array(4).fill({})
+          }))
+        }))
+      };
+
+      const html = template(context);
+      document.body.innerHTML = html;
+    </script>
+  </body>
+</html>
